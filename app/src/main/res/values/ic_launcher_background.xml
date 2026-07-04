@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Background layer for the adaptive launcher icon
+         (Android 8+ / API 26+). Set to match the SVG's dark navy
+         fill so the adaptive-icon mask edges align with the rounded
+         square baked into ic_launcher_foreground.png. The favicon
+         source is web/public/favicon.svg (the triangle on dark
+         navy). -->
+    <color name="ic_launcher_background">#05050a</color>
+</resources>
