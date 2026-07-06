@@ -68,6 +68,46 @@ and `../fitquest-bridge/app/src/main/res/`.
 
 ## Versioning
 
-Edit `app/build.gradle` — `versionCode` + `versionName`. The
-release process tags `vX.Y.Z` and uploads the APK as a release
-asset via `gh release create`.
+`scripts/sync-android.sh` keeps the Android release artefacts in
+sync with the parent `joshbowyer/fitquest` repo so the wrapper
+doesn't go stale. Run it from the parent repo's working tree:
+
+```bash
+# Refresh the CHANGELOG.md + RELEASE_NOTES_vX.Y.Z.md for the
+# CURRENT version (does not bump). Use this when the parent repo
+# shipped commits since the last sync but you want to keep the
+# target Android version the same.
+cd /path/to/fitquest
+./scripts/sync-android.sh
+
+# Auto-bump patch (X.Y.Z → X.Y.(Z+1)) and refresh notes.
+BUMP=1 ./scripts/sync-android.sh
+
+# Explicit target version.
+NEXT_VERSION=1.0.4 ./scripts/sync-android.sh
+```
+
+The script:
+
+1. Reads the current `versionCode` + `versionName` from
+   `app/build.gradle`.
+2. Walks the parent repo's git log since the last bump (uses the
+   author date of the most recent commit that touched
+   `app/build.gradle`; override with `SINCE=YYYY-MM-DD`).
+3. Categorises commits by conventional-commit prefix
+   (`feat:` / `fix:` / `polish:` / etc) and writes a fresh
+   `CHANGELOG.md` + `RELEASE_NOTES_vX.Y.Z.md` draft.
+4. Bumps `app/build.gradle` in place (unless invoked without
+   `BUMP=1` / `NEXT_VERSION`, in which case it just refreshes the
+   notes for the current version).
+
+It does NOT run gradle, sign, or publish. The release process
+still tags `vX.Y.Z` and uploads the APK as a release asset via
+`gh release create`. The release-notes draft is passed as the
+release body so the GitHub release gets the same content as
+`CHANGELOG.md`:
+
+```bash
+gh release create v1.0.3 RELEASE_NOTES_v1.0.3.md \
+  app/build/outputs/apk/release/app-release.apk
+```
