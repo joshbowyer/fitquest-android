@@ -65,7 +65,15 @@ NEXT_CODE="$CUR_CODE"
 NEXT_NAME="${NEXT_VERSION:-}"
 if [[ -z "$NEXT_NAME" ]]; then
   if [[ "${BUMP:-0}" == "1" ]]; then
-    NEXT_NAME=$(echo "$CUR_NAME" | awk -F. '{$NF = $NF + 1; OFS="."; print $0}')
+    # Bump the patch component of CUR_NAME (X.Y.Z → X.Y.(Z+1)).
+    # Use shell parameter expansion rather than awk — awk treats
+    # "." as a field separator and broke SemVer strings into
+    # ("1" "0" "4") so the bumped output was "1 0 4" (with
+    # spaces). Truncate on the first '.' from the right, then
+    # replace the prefix with `${prefix}.${bumped_patch}`.
+    prefix="${CUR_NAME%.*}"
+    patch="${CUR_NAME##*.}"
+    NEXT_NAME="${prefix}.$((patch + 1))"
     NEXT_CODE=$((CUR_CODE + 1))
   else
     NEXT_NAME="$CUR_NAME"
