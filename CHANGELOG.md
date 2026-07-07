@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.0.29 — 2026-07-07
+
+Version code 29. Tracks the parent fitquest repo (web + api).
+
+### Improvements
+
+- **Scroll-to-top on every sidebar nav.** Long pages used to
+  load scrolled to the bottom (the previous page's scroll
+  position persisted); now every route change scrolls to top.
+  Hash deep-links (`#class`, `#anchor`) still work.
+- **AI Coach context expanded ~3-4×.** Was: hearts / streak /
+  7d workout count / avg sleep / today recovery (~500 tokens).
+  Now: last 5 workouts with exercise names + top sets + total
+  sets + duration; per-night sleep for 7 local days; substance
+  counts broken down (caffeine today, caffeine/alcohol/nicotine/
+  electrolyte this week); latest weight + body fat + 14-day
+  weight trend; last 5 habit logs + 7d pos/neg counts; yesterday's
+  dailies + 7d completion rate; today's nutrition totals
+  (cal/protein/carb/fat/meal count) + yesterday's calories; last
+  5 PRs; pending skill unlocks. The Coach page sidebar now
+  shows a "Coach also sees" section so you can sanity-check
+  what data is available.
+
 ## v1.0.28 — 2026-07-07
 
 Version code 28. Tracks the parent fitquest repo (web + api).
