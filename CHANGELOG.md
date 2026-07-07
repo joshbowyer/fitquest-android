@@ -1,5 +1,46 @@
 # Changelog
 
+## v1.0.34 — 2026-07-07
+
+Version code 34. Tracks the parent fitquest repo (web + api).
+
+### Bug fixes
+
+- **FIT_MONITORING_B type corrected to 16 (was 119).** v1.0.33
+  added `type 119` to the kind label map based on a wrong FIT
+  spec reading — `119` is not a real `FIT_FILEID_TYPE` constant.
+  Per `@garmin/fitsdk`, modern Garmin watches write the
+  monitoring-b file as numeric type **16**. The user's actual
+  MONITOR files all show `type 16`; the wrong mapping meant
+  every monitoring FIT was still classified as 'unknown' and
+  parsed to nothing. Replaced `119`/`120` with `16`/`10` and
+  updated the test.
+- **Measurement unique constraint migration.** The schema
+  declared `@@unique([userId, metric, recordedAt])` but the live
+  DB only had the plain index, so `prisma.measurement.upsert`
+  was failing with Postgres `42P10` ("no unique or exclusion
+  constraint matching the ON CONFLICT specification"). The
+  import route's idempotency contract (re-uploading the same
+  FIT just updates existing rows) was broken until the
+  migration runs. New migration
+  `20260707120000_measurement_unique_constraint` swaps the
+  non-unique index for a unique one in-place.
+
+Verified end-to-end: 3 MONITOR files imported via `/import`
+yielded `kind: 'monitor'` and extracted RESPIRATION_RATE +
+STEPS. DB went 2544 → 2548 STEPS rows and 2466 → 2470
+RESPIRATION_RATE rows. HRV/STRESS unaffected (HRV is from
+HRV_STATUS files, STRESS already extracted from previous
+uploads).
+
+Note: body battery is not in any of the user's FIT files
+(decoded ACTIVITY, METRICS, HRV_STATUS, MONITOR, SLEEP —
+zero `hsaBodyBatteryDataMesgs` anywhere). This particular
+watch + Gadgetbridge sync path doesn't surface body battery
+via FIT export; it lives in Garmin Connect's database (Health
+API) and would need a separate integration. Out of scope for
+the FIT pipeline.
+
 ## v1.0.33 — 2026-07-07
 
 Version code 33. Tracks the parent fitquest repo (web + api).
