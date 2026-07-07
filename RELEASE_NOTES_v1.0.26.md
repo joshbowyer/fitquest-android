@@ -2,13 +2,7 @@
 
 Four P1.5 follow-ups from the bug-hunt session — none UI-reshaping, all correctness.
 
-Version code 26. Tracks the parent fitquest repo (web + api).
-
-Four P1.5 follow-ups from the bug-hunt session — none UI-reshaping,
-all correctness.
-
 ### Bug fixes
-
 
 - **Breach kills now actually drop Soulstones.** The victory modal
   advertised 1–12 stones per kill (per tier) but the old
@@ -29,4 +23,3 @@ all correctness.
   at 00:30 on spring-forward day no longer buckets a day too
   far back; weigh-in + metric streaks no longer drop to 0 on
   the 25h fall-back day.
-
