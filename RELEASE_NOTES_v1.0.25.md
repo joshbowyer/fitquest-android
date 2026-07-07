@@ -1,8 +1,6 @@
 # FitQuest Android v1.0.25
 
-The bug-squash release.
-
-Bug-squash release: a full tsc-triage + logic audit of the codebase
+The bug-squash release: a full tsc-triage + logic audit of the codebase
 (642 accumulated type errors triaged, ~30 real bugs fixed in two
 rounds).
 
