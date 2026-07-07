@@ -1,5 +1,31 @@
 # Changelog
 
+## v1.0.33 — 2026-07-07
+
+Version code 33. Tracks the parent fitquest repo (web + api).
+
+### Bug fix
+
+- **Monitoring FIT files now extract body battery + HRV.** Two
+  bugs in `api/src/lib/fit.ts`:
+  1. `detectFitKind()` was missing the common Garmin file types
+     119 (`FIT_FILE_MONITORING_B`, modern watches) and 120
+     (`FIT_FILE_MONITORING_A`, older watches). Both fell through
+     to the `?? 'unknown'` default so the parser extracted
+     nothing. Now explicitly mapped.
+  2. Body battery + HRV extraction was in `parseMetrics` (file
+     type 44, rare daily rollup) instead of `parseMonitor`
+     (where the HSA messages actually live). Moved. `parseMetrics`
+     now delegates to `parseMonitor`.
+
+Tests: 595 → 599 (4 new in `fitKind.test.ts` — kind-detection
+regression coverage).
+
+Note: the bridge dedupes by absolute file path, so files that
+were ALREADY uploaded as 'unknown' before this fix won't be
+re-uploaded. To backfill: clear GB's app data + re-sync, or
+wait for new monitoring data to arrive.
+
 ## v1.0.32 — 2026-07-07
 
 Version code 32. Tracks the parent fitquest repo (web + api).
