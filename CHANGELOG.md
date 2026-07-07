@@ -1,5 +1,39 @@
 # Changelog
 
+## v1.0.30 — 2026-07-07
+
+Version code 30. Tracks the parent fitquest repo (web + api).
+
+### Improvements: AI Coach persistence + limits + compaction
+
+Closes the v1.1 scope from the design discussion. The Coach
+now remembers you between visits, throttles abuse, and stays
+bounded as the conversation grows.
+
+- **Conversation persistence.** One rolling conversation per
+  user, persisted in `CoachConversation` + `CoachMessage`. Close
+  the browser, come back tomorrow — the chat is still there.
+  GET /coach/messages hydrates on page load; new sends invalidate
+  the query. Clear button in the panel header wipes the convo
+  but preserves the personality choice.
+- **Rate limits.** 5 messages / 1 min (burst, anti-spam) +
+  50 messages / 24h (cost cap). In-memory per-user token bucket,
+  same pattern as the existing auth rate limiter. Returns 429
+  with Retry-After; UI shows a friendly retry hint.
+- **Sliding window (last 20).** The LLM only sees the most
+  recent 20 messages per request; older turns are either folded
+  into a summary or dropped, so the prompt stays bounded.
+- **LLM summary compaction.** When messageCount crosses 30, a
+  fire-and-forget LLM call summarizes the oldest 10 turns and
+  stores the result on the conversation. Future prompts
+  prepend a "Summary of earlier conversation" block so the
+  coach remembers your goals / programs / PRs past the sliding
+  window.
+- **Page header chips.** Message count + "summarized" badge so
+  the user can see the conversation state at a glance.
+- **Better LLM error UX.** "thinking…" bubble during the call;
+  friendly messages for 429 / 502 / 422 instead of raw errors.
+
 ## v1.0.29 — 2026-07-07
 
 Version code 29. Tracks the parent fitquest repo (web + api).
