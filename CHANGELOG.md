@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.0.31 — 2026-07-07
+
+Version code 31. Tracks the parent fitquest repo (web + api).
+
+### Hotfix
+
+- **ScrollToTop actually scrolls now.** v1.0.29's version called
+  `window.scrollTo(0, 0)`, but Layout's scrollable surface is
+  `<main className="... overflow-y-auto">` — the window isn't
+  scrollable. This version targets `<main>` via querySelector
+  (window fallback only for the rare pre-mount case). Also fires
+  on initial mount with a requestAnimationFrame defer so the
+  scroll wins the race against the browser's scroll restoration
+  on back/forward and hard reload.
+
 ## v1.0.30 — 2026-07-07
 
 Version code 30. Tracks the parent fitquest repo (web + api).
