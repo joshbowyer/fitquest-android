@@ -2,18 +2,14 @@
 
 New feature: AI Coach.
 
- — 2026-07-07
-
-Version code 27. Tracks the parent fitquest repo (web + api).
-
-### New feature: AI Coach
+## What's new
 
 A new `/coach` page (nav icon ✺) with a personality selector and
 chat interface. The system prompt is composed from a shared
 preamble + a per-personality voice block + FitQuest world context.
 Uses the system default LLM (`minimax-m3`).
 
-**5 personality presets:**
+### 5 personality presets
 
 - **Priest Bodybuilder** — Catholic/monastic imagery + hypertrophy.
   The default FitQuest voice. New users get this until they pick.
@@ -22,7 +18,7 @@ Uses the system default LLM (`minimax-m3`).
 - **Zoomer (Zyzz bro)** — gym-bro subculture, aesthetic, memes.
 - **Generic** — polite neutral AI health assistant. Safe default.
 
-**Other notes:**
+### Notes
 
 - Schema: new `CoachPersonality` enum + `User.coachPersonality`
   nullable column. Migration applied automatically on api startup.
@@ -33,4 +29,3 @@ Uses the system default LLM (`minimax-m3`).
 - If the admin hasn't configured the LLM yet, the page renders a
   disabled input — `GET /coach` returns the meta fine, `POST
   /coach` returns 422 until the admin enables the LLM.
-
