@@ -1,5 +1,42 @@
 # Changelog
 
+## v1.0.35 — 2026-07-07
+
+Version code 35. Tracks the parent fitquest repo (web + api).
+
+### New features
+
+- **One-shot TODO list at `/todos`.** `TodoItem` model
+  (title, description, dueDate, priority LOW/MED/HIGH, status
+  OPEN/DONE, completedAt). CRUD + 10/20/30 XP reward scaled by
+  priority on the OPEN→DONE transition. Nav icon ☐. The
+  page renders the list with filter pills (Open/Done/All),
+  inline editor modal, due-date badges (overdue / due today
+  / in N days), and an XP toast on completion.
+- **`/vitals` ingestion endpoint for the upcoming Gadgetbridge
+  auto-sync.** `POST /vitals` accepts batched time-series JSON,
+  upserts into `Measurement` keyed on `(userId, metric,
+  recordedAt)`. Same-value skip avoids churn on re-syncs.
+  Validates `kind` against known `MetricType` values; 400 with
+  `unknown_metric` if a typo. `GET /vitals?since=...` returns
+  existing samples for cursor reconciliation. Up to 1000 samples
+  per POST. The full design for the GB-side auto-sync (tracker-
+  agnostic interface mirroring HealthConnect's syncer pattern,
+  3-PR strategy, risks + mitigations, test patterns) is in
+  `GB_FITQUEST_SYNC.md` in the FitQuest repo.
+
+### Bug fix
+
+- **ZodError is now caught by the global error handler and
+  returns 400 (was 500).** Affected every route that called
+  `schema.parse(req.body)` with invalid input. Test-friendly:
+  vitest tests for `/todos` and `/vitals` now set up the same
+  ZodError handler as production.
+
+Tests: 595 → 613 (8 new in todos.test.ts for CRUD + XP transitions;
+6 new in vitals.test.ts for upsert + cursor + kind validation;
+plus the ZodError test infra).
+
 ## v1.0.34 — 2026-07-07
 
 Version code 34. Tracks the parent fitquest repo (web + api).
