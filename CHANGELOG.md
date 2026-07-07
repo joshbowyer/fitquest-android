@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.0.28 — 2026-07-07
+
+Version code 28. Tracks the parent fitquest repo (web + api).
+
+### Bug fix
+
+- **/me endpoint now degrades gracefully on a missing-column
+  migration mismatch.** When the v1.0.27 /coach migration was
+  applied to schema + types but not yet to the live database,
+  every `/auth/me` call threw `PrismaClient P2022` and the web
+  treated it as a session failure — every user was kicked to
+  /login for ~25 minutes. `publicUser()` now wraps new
+  field-reads in `safeReadField()` so a missing column
+  degrades to `null` instead of 500-ing the whole endpoint.
+
 ## v1.0.27 — 2026-07-07
 
 Version code 27. Tracks the parent fitquest repo (web + api).
