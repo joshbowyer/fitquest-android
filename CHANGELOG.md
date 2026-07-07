@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.0.24 — 2026-07-07
+
+Version code 24. Tracks the parent fitquest repo (web + api).
+
+### Bug fixes
+
+- fix(skills): skill-tree icons finally share one Y — root cause was
+  1-line vs 2-line skill names making button heights differ, so the
+  `items-center` chain wrapper pushed short buttons ~4px down inside the
+  stretched row. Nodes are now top-anchored, the name label is a fixed
+  2-line box (every button exactly 100px), and the connector is pinned
+  at the icon center (y=44) measured from the top.
+- fix(skills): hand-coded SVG icons now render at 28px like the calitree
+  PNG masks (were 24px — icons looked different sizes between branches)
+- fix(ci): parent-repo v* tag image builds no longer fail at the
+  manifest-merge step; :main and :latest are now proper multi-arch tags
+
 ## v1.0.23 — 2026-07-07
 
 Version code 23. Tracks the parent
