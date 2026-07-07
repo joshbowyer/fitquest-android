@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.32 — 2026-07-07
+
+Version code 32. Tracks the parent fitquest repo (web + api).
+
+### Hotfix
+
+- **Coach messages panel scrolls to top on entry.** v1.0.31's
+  Layout-level scroll-to-top fixed the page-level scroll, but
+  the Coach page's inner messages div had its own scroll
+  position that the auto-scroll-to-bottom effect was forcing to
+  the bottom on every mount. Now: initial render scrolls the
+  messages div to its top (so the user sees the start of the
+  conversation or the empty state); subsequent renders with new
+  messages still scroll to bottom (so the latest reply is
+  visible). Distinguished via `initializedRef` + `prevMsgCountRef`.
+
 ## v1.0.31 — 2026-07-07
 
 Version code 31. Tracks the parent fitquest repo (web + api).
