@@ -63,8 +63,17 @@ fi
 #      want fresh CHANGELOG + release-notes). NEXT_CODE stays put.
 NEXT_CODE="$CUR_CODE"
 NEXT_NAME="${NEXT_VERSION:-}"
-if [[ -z "$NEXT_NAME" ]]; then
-  if [[ "${BUMP:-0}" == "1" ]]; then
+if [[ -n "$NEXT_NAME" ]]; then
+  # Explicit target version. This is still a NEW release, so the
+  # versionCode MUST bump — Android refuses to install an APK whose
+  # versionCode is <= the installed one, so shipping NEXT_VERSION
+  # with a stale code would silently block the update. (This was a
+  # latent bug: only BUMP=1 used to increment the code.) Guard
+  # against a no-op where NEXT_VERSION == the current version.
+  if [[ "$NEXT_NAME" != "$CUR_NAME" ]]; then
+    NEXT_CODE=$((CUR_CODE + 1))
+  fi
+elif [[ "${BUMP:-0}" == "1" ]]; then
     # Bump the patch component of CUR_NAME (X.Y.Z → X.Y.(Z+1)).
     # Use shell parameter expansion rather than awk — awk treats
     # "." as a field separator and broke SemVer strings into
@@ -75,9 +84,8 @@ if [[ -z "$NEXT_NAME" ]]; then
     patch="${CUR_NAME##*.}"
     NEXT_NAME="${prefix}.$((patch + 1))"
     NEXT_CODE=$((CUR_CODE + 1))
-  else
+else
     NEXT_NAME="$CUR_NAME"
-  fi
 fi
 
 # Date for the changelog entry
