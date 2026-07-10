@@ -111,3 +111,7 @@ release body so the GitHub release gets the same content as
 gh release create v1.0.3 RELEASE_NOTES_v1.0.3.md \
   app/build/outputs/apk/release/app-release.apk
 ```
+
+## License
+
+GPL-3.0-or-later. See [LICENSE](./LICENSE).
