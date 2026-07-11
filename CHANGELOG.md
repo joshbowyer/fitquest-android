@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.0.46 — 2026-07-11
+
+Version code 46. Tracks the parent
+fitquest repo (web + api). Run from fitquest-android after the parent
+repo has shipped changes.
+
+### Features
+
+- feat(skills): PHANTOM deluxe expansion + shared-canvas skill tree rendering
+
+### Bug fixes
+
+- fix(mobile): fix exponential pinch-zoom compounding + restore pan-from-node-grid
+- fix(mobile): scope pull-to-refresh to top bar, fix pinch-zoom, date-label shield digest
+
 ## v1.0.45 — 2026-07-11
 
 Version code 45. Tracks the parent
