@@ -99,3 +99,9 @@ app/src/main/assets/public
 app/src/main/assets/capacitor.config.json
 app/src/main/assets/capacitor.plugins.json
 app/src/main/res/xml/config.xml
+
+# Eclipse / Buildship project metadata (local IDE artifacts, not
+# needed by anyone else building via Android Studio or gradlew).
+.project
+.classpath
+.settings/
