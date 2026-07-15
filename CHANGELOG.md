@@ -1,5 +1,26 @@
 # Changelog
 
+## v2.0.5 — 2026-07-15
+
+Version code 58. Tracks the parent
+fitquest repo (web + api). Run from fitquest-android after the parent
+repo has shipped changes.
+
+### Bug fixes
+
+- fix(web): explicit Log button for score check-ins, morning popup fixes
+- fix(docker): copy nested api/node_modules so tsc can resolve vitest
+- fix(import): dedup DailyLog per workout's own local day, not "today"
+- fix(api): pay down tsc backlog to 0, flip Dockerfile typecheck gate
+- fix(recovery): bridge chart line across missing sleep/HRV/BB days
+- fix(skills): default skill-tree mobile zoom to 50% for all classes
+- fix(substances): invalidate cache + tag auto-linked rows with source
+- fix(combat): audit fixes C1+C2+C7 + multi-target leak damage (v2.0.2)
+
+### Other
+
+- docs(roadmap): close tsc P0, skill-tree zoom backlog; log new import.test.ts bug
+
 ## v2.0.4 — 2026-07-14
 
 Version code 57. Tracks the parent
